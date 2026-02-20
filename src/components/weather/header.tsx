@@ -9,17 +9,17 @@ interface HeaderProps {
     onRefresh: () => void;
 }
 
-export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
-    const formatTime = (dateString: string | null) => {
-        if (!dateString) return "--:--";
-        const date = new Date(dateString);
-        return date.toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-        });
-    };
+function formatTime(dateString: string | null) {
+    if (!dateString) return "--:--";
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+    });
+}
 
+export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
     return (
         <header className="border-b border-border bg-background sticky top-0 z-50">
             <div className="h-1 bg-primary"></div>
@@ -36,7 +36,7 @@ export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
                     </span>
                 </div>
                 <div className="flex items-center gap-4">
-                    {lastUpdated && (
+                    {lastUpdated ? (
                         <div className="text-xs font-mono text-muted-foreground hidden md:flex items-center gap-2">
                             <span className="w-1.5 h-1.5 bg-primary animate-pulse"></span>
                             <span>LIVE</span>
@@ -44,7 +44,7 @@ export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
                                 {formatTime(lastUpdated)}
                             </span>
                         </div>
-                    )}
+                    ) : null}
                     <Button
                         variant="outline"
                         size="sm"

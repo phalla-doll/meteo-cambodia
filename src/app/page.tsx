@@ -1,15 +1,24 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-    CurrentConditions,
-    Header,
-    ProvinceGrid,
-    ProvinceMap,
-    WeatherMetrics,
-} from "@/components/weather";
+import { CurrentConditions } from "@/components/weather/current-conditions";
+import { Header } from "@/components/weather/header";
+import { ProvinceGrid } from "@/components/weather/province-grid";
+import { WeatherMetrics } from "@/components/weather/weather-metrics";
 import { useWeather } from "@/hooks/use-weather";
+
+const ProvinceMap = dynamic(
+    () =>
+        import("@/components/weather/province-map").then(
+            (mod) => mod.ProvinceMap,
+        ),
+    {
+        ssr: false,
+        loading: () => <Skeleton className="h-[400px] bg-card" />,
+    },
+);
 
 export default function Dashboard() {
     const { weather, isLoading, isError, mutate } = useWeather();
