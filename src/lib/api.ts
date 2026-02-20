@@ -4,7 +4,7 @@ import type {
     WeatherResponse,
 } from "@/types/weather";
 
-const BASE_URL = "https://data.mef.gov.kh/api/v1/realtime-api/weather";
+const BASE_URL = "/api/weather";
 
 export async function fetchAllWeather(): Promise<WeatherData[]> {
     const response = await fetch(BASE_URL, {
@@ -18,9 +18,12 @@ export async function fetchAllWeather(): Promise<WeatherData[]> {
 }
 
 export async function fetchProvinceWeather(name: string): Promise<WeatherData> {
-    const response = await fetch(`${BASE_URL}/${encodeURIComponent(name)}`, {
-        next: { revalidate: 300 },
-    });
+    const response = await fetch(
+        `${BASE_URL}?province=${encodeURIComponent(name)}`,
+        {
+            next: { revalidate: 300 },
+        },
+    );
     if (!response.ok) {
         throw new Error(
             `Failed to fetch weather for ${name}: ${response.statusText}`,
