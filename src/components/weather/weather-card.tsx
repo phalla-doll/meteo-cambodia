@@ -21,8 +21,8 @@ export function WeatherCard({
     return (
         <Card
             className={cn(
-                "p-3 cursor-pointer transition-all hover:shadow-md",
-                isSelected && "ring-2 ring-primary border-primary",
+                "p-3 cursor-pointer transition-all border-border hover:border-primary/50",
+                isSelected && "border-primary border-glow",
                 compact && "p-2",
             )}
             onClick={onClick}
@@ -32,20 +32,21 @@ export function WeatherCard({
                     condition={weather.condition}
                     isDay={weather.is_day}
                     size={compact ? "sm" : "md"}
+                    className="opacity-80"
                 />
                 <div className="flex-1 min-w-0">
                     <p
                         className={cn(
                             "font-medium text-foreground truncate",
-                            compact ? "text-xs" : "text-sm",
+                            compact ? "text-xs font-mono uppercase" : "text-sm",
                         )}
                     >
                         {weather.name}
                     </p>
                     <p
                         className={cn(
-                            "text-muted-foreground",
-                            compact ? "text-xs" : "text-sm",
+                            "text-muted-foreground font-mono",
+                            compact ? "text-[10px]" : "text-xs",
                         )}
                     >
                         {weather.condition.text}
@@ -54,15 +55,16 @@ export function WeatherCard({
                 <div className="text-right">
                     <p
                         className={cn(
-                            "font-semibold text-foreground",
+                            "font-bold text-foreground font-mono",
                             compact ? "text-lg" : "text-2xl",
                         )}
                     >
-                        {Math.round(weather.temp_c)}°
+                        {Math.round(weather.temp_c)}
+                        <span className="text-primary text-sm">°</span>
                     </p>
                     {!compact && (
-                        <p className="text-xs text-muted-foreground">
-                            Feels {Math.round(weather.feelslike_c)}°
+                        <p className="text-[10px] text-muted-foreground font-mono">
+                            FEELS {Math.round(weather.feelslike_c)}°
                         </p>
                     )}
                 </div>

@@ -38,7 +38,7 @@ const metrics = [
 
 export function WeatherMetrics({ weather }: WeatherMetricsProps) {
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
             {metrics.map((metric) => {
                 const Icon = metric.icon;
                 const value = weather
@@ -57,28 +57,30 @@ export function WeatherMetrics({ weather }: WeatherMetricsProps) {
                         : null;
 
                 return (
-                    <Card key={metric.key}>
+                    <Card key={metric.key} className="border-0 bg-card">
                         <CardContent className="p-4">
-                            <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                            <div className="flex items-center gap-2 text-muted-foreground mb-3">
                                 <Icon className="h-4 w-4" />
-                                <span className="text-sm">{metric.label}</span>
+                                <span className="text-xs font-mono uppercase tracking-wide">
+                                    {metric.label}
+                                </span>
                             </div>
                             {weather ? (
                                 <div className="flex items-baseline gap-1">
-                                    <span className="text-2xl font-semibold text-foreground">
+                                    <span className="text-2xl font-bold text-foreground font-mono data-pulse">
                                         {value}
                                     </span>
-                                    <span className="text-sm text-muted-foreground">
+                                    <span className="text-sm text-muted-foreground font-mono">
                                         {metric.unit}
                                     </span>
                                     {subValue && (
-                                        <span className="text-sm text-muted-foreground ml-1">
-                                            ({subValue})
+                                        <span className="text-xs text-primary font-mono ml-1">
+                                            {subValue}
                                         </span>
                                     )}
                                 </div>
                             ) : (
-                                <span className="text-muted-foreground">
+                                <span className="text-muted-foreground font-mono">
                                     --
                                 </span>
                             )}

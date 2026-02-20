@@ -36,15 +36,18 @@ export default function Dashboard() {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-lg text-destructive">
+                    <p className="text-sm font-mono uppercase tracking-wide text-destructive">
+                        System Error
+                    </p>
+                    <p className="text-muted-foreground font-mono text-xs mt-2">
                         Failed to load weather data
                     </p>
                     <button
                         type="button"
                         onClick={() => mutate()}
-                        className="mt-4 text-primary hover:underline"
+                        className="mt-4 text-primary font-mono text-sm uppercase tracking-wide hover:underline"
                     >
-                        Try again
+                        Retry
                     </button>
                 </div>
             </div>
@@ -60,11 +63,11 @@ export default function Dashboard() {
             />
 
             <main className="container mx-auto px-4 py-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border mb-px">
                     {isLoading ? (
                         <>
-                            <Skeleton className="h-[400px] rounded-lg" />
-                            <Skeleton className="h-[300px] rounded-lg" />
+                            <Skeleton className="h-[400px] bg-card" />
+                            <Skeleton className="h-[300px] bg-card" />
                         </>
                     ) : (
                         <>
@@ -78,16 +81,13 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <section className="mb-6">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">
-                        Weather Metrics
-                    </h2>
+                <section className="mb-px">
                     {isLoading ? (
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <Skeleton className="h-24 rounded-lg" />
-                            <Skeleton className="h-24 rounded-lg" />
-                            <Skeleton className="h-24 rounded-lg" />
-                            <Skeleton className="h-24 rounded-lg" />
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
+                            <Skeleton className="h-24 bg-card" />
+                            <Skeleton className="h-24 bg-card" />
+                            <Skeleton className="h-24 bg-card" />
+                            <Skeleton className="h-24 bg-card" />
                         </div>
                     ) : (
                         <WeatherMetrics weather={selectedWeather} />
@@ -95,21 +95,25 @@ export default function Dashboard() {
                 </section>
 
                 <section>
-                    <h2 className="text-lg font-semibold text-foreground mb-4">
-                        All Provinces ({weather?.length ?? 0})
-                    </h2>
                     {isLoading ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
-                            <Skeleton className="h-20 rounded-lg" />
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-px bg-border">
+                            {[
+                                "01",
+                                "02",
+                                "03",
+                                "04",
+                                "05",
+                                "06",
+                                "07",
+                                "08",
+                                "09",
+                                "10",
+                            ].map((n) => (
+                                <Skeleton
+                                    key={`skeleton-${n}`}
+                                    className="h-16 bg-card"
+                                />
+                            ))}
                         </div>
                     ) : (
                         <ProvinceGrid

@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-    variable: "--font-inter",
+const jetbrainsMono = JetBrains_Mono({
+    variable: "--font-mono",
+    subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+    variable: "--font-sans",
     subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-    title: "Cambodia Weather Dashboard",
-    description: "Real-time weather data for all 25 Cambodian provinces",
+    title: "TACTICAL WEATHER SYSTEM",
+    description: "Real-time weather intelligence for 25 Cambodian provinces",
 };
 
 export default function RootLayout({
@@ -18,8 +23,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="light">
-            <body className={`${inter.variable} font-sans antialiased`}>
+        <html lang="en" className="dark">
+            <body
+                className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} font-sans antialiased`}
+            >
                 {children}
             </body>
         </html>

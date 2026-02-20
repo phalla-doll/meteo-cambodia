@@ -30,12 +30,12 @@ export function ProvinceMap({
     }, [weather]);
 
     return (
-        <div className="h-[400px] md:h-full min-h-[400px] rounded-lg overflow-hidden border">
+        <div className="h-[400px] md:h-full min-h-[400px] border border-border overflow-hidden">
             <MapComponent
                 center={[105.0, 12.5]}
                 zoom={6}
                 className="h-full w-full"
-                theme="light"
+                theme="dark"
             >
                 {Object.entries(provinceCoords).map(([name, coords]) => {
                     const provinceWeather = weatherByProvince.get(name);
@@ -50,17 +50,17 @@ export function ProvinceMap({
                         >
                             <MarkerContent>
                                 <div
-                                    className={`flex items-center justify-center w-8 h-8 rounded-full border-2 shadow-lg transition-all cursor-pointer ${
+                                    className={`flex items-center justify-center w-8 h-8 border-2 transition-all cursor-pointer ${
                                         isSelected
-                                            ? "bg-primary border-primary scale-125"
-                                            : "bg-white border-primary/50 hover:border-primary hover:scale-110"
+                                            ? "bg-primary border-primary glow-primary"
+                                            : "bg-card border-border hover:border-primary"
                                     }`}
                                 >
                                     <span
-                                        className={`text-xs font-bold ${
+                                        className={`text-xs font-mono font-bold ${
                                             isSelected
-                                                ? "text-white"
-                                                : "text-primary"
+                                                ? "text-primary-foreground"
+                                                : "text-foreground"
                                         }`}
                                     >
                                         {provinceWeather
@@ -70,12 +70,14 @@ export function ProvinceMap({
                                 </div>
                             </MarkerContent>
                             <MarkerTooltip>
-                                <div className="text-center">
-                                    <p className="font-medium">{name}</p>
+                                <div className="text-center bg-card border border-border px-3 py-2">
+                                    <p className="font-mono text-xs uppercase tracking-wide text-foreground">
+                                        {name}
+                                    </p>
                                     {provinceWeather && (
-                                        <p className="text-xs opacity-80">
+                                        <p className="text-[10px] text-muted-foreground font-mono mt-1">
                                             {Math.round(provinceWeather.temp_c)}
-                                            °C -{" "}
+                                            °C ·{" "}
                                             {provinceWeather.condition.text}
                                         </p>
                                     )}

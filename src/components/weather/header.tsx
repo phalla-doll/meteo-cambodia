@@ -21,21 +21,26 @@ export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
     };
 
     return (
-        <header className="border-b bg-white sticky top-0 z-50">
+        <header className="border-b border-border bg-background sticky top-0 z-50">
+            <div className="h-1 bg-primary"></div>
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                <div>
-                    <h1 className="text-xl md:text-2xl font-bold text-primary">
-                        National Weather Analytics Dashboard
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        Real-time weather data for Cambodia
-                    </p>
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-primary"></div>
+                        <h1 className="text-sm font-mono font-bold tracking-widest text-primary uppercase">
+                            Tactical Weather System
+                        </h1>
+                    </div>
+                    <span className="text-muted-foreground text-xs font-mono hidden sm:block">
+                        CAMBODIA · 25 PROVINCES
+                    </span>
                 </div>
                 <div className="flex items-center gap-4">
                     {lastUpdated && (
-                        <div className="text-sm text-muted-foreground hidden md:block">
-                            <span>Last updated: </span>
-                            <span className="font-medium text-foreground">
+                        <div className="text-xs font-mono text-muted-foreground hidden md:flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 bg-primary animate-pulse"></span>
+                            <span>LIVE</span>
+                            <span className="text-foreground">
                                 {formatTime(lastUpdated)}
                             </span>
                         </div>
@@ -45,11 +50,12 @@ export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
                         size="sm"
                         onClick={onRefresh}
                         disabled={isLoading}
+                        className="h-8"
                     >
                         <RefreshCw
-                            className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
+                            className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`}
                         />
-                        Refresh
+                        <span className="hidden sm:inline">SYNC</span>
                     </Button>
                 </div>
             </div>
