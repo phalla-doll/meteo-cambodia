@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetchWithTlsBypass } from "@/lib/fetch-with-tls";
 
 const BASE_URL = "https://data.mef.gov.kh/api/v1/realtime-api/weather";
 
@@ -10,7 +11,7 @@ export async function GET(request: Request) {
         ? `${BASE_URL}?province=${encodeURIComponent(province)}`
         : BASE_URL;
 
-    const response = await fetch(url, {
+    const response = await fetchWithTlsBypass(url, {
         headers: {
             Accept: "application/json",
             "User-Agent":

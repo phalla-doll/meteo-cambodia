@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetchWithTlsBypass } from "@/lib/fetch-with-tls";
 import type { ExchangeRateResponse } from "@/types/exchange-rate";
 import { SUPPORTED_CURRENCIES } from "@/types/exchange-rate";
 
@@ -8,7 +9,7 @@ export async function GET() {
     const results = await Promise.all(
         SUPPORTED_CURRENCIES.map(async (currency) => {
             try {
-                const response = await fetch(
+                const response = await fetchWithTlsBypass(
                     `${BASE_URL}?currency_id=${currency}`,
                     {
                         headers: {

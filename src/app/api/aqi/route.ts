@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetchWithTlsBypass } from "@/lib/fetch-with-tls";
 import type { AqiResponse } from "@/types/aqi";
 
 const BASE_URL = "https://data.mef.gov.kh/api/v1/realtime-api/aqi";
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
         );
     }
 
-    const response = await fetch(
+    const response = await fetchWithTlsBypass(
         `${BASE_URL}?province=${encodeURIComponent(province)}`,
         {
             headers: {
