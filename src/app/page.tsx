@@ -3,7 +3,9 @@
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AirQualityCard } from "@/components/weather/air-quality-card";
 import { CurrentConditions } from "@/components/weather/current-conditions";
+import { ExchangeRateMarquee } from "@/components/weather/exchange-rate-marquee";
 import { Header } from "@/components/weather/header";
 import { ProvinceGrid } from "@/components/weather/province-grid";
 import { WeatherMetrics } from "@/components/weather/weather-metrics";
@@ -65,11 +67,13 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-background">
+            <ExchangeRateMarquee />
             <Header
                 lastUpdated={lastUpdated}
                 isLoading={isLoading}
                 onRefresh={() => mutate()}
             />
+            <AirQualityCard province={selectedProvince} />
 
             <main className="container mx-auto px-4 py-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border mb-px">
