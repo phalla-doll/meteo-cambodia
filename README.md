@@ -2,6 +2,16 @@
 
 A weather analytics dashboard for Cambodia built with Next.js.
 
+## Data Source
+
+Weather, air quality, and exchange rate data is fetched from the Cambodian Ministry of Economy and Finance API:
+
+- **Base URL**: `https://data.mef.gov.kh/api/v1/realtime-api/`
+
+### TLS Certificate Note
+
+The external API has an incomplete SSL certificate chain. A workaround is implemented using `undici` with TLS verification disabled for requests to this domain only (`src/lib/fetch-with-tls.ts`).
+
 ## Design Reference
 
 This project is based on a Stitch design: **National Weather Analytics Dashboard V1**
