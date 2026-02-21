@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AirQualityCard } from "@/components/weather/air-quality-card";
 import { CurrentConditions } from "@/components/weather/current-conditions";
 import { ExchangeRateMarquee } from "@/components/weather/exchange-rate-marquee";
+import { Footer } from "@/components/weather/footer";
 import { Header } from "@/components/weather/header";
 import { ProvinceGrid } from "@/components/weather/province-grid";
 import { WeatherMetrics } from "@/components/weather/weather-metrics";
@@ -83,7 +84,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen flex flex-col bg-background">
             <ExchangeRateMarquee />
             <Header
                 lastUpdated={lastUpdated}
@@ -95,7 +96,7 @@ export default function Dashboard() {
             />
             <AirQualityCard province={selectedProvince} />
 
-            <main className="container mx-auto px-4 py-6">
+            <main className="container mx-auto px-4 py-6 flex-1">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border mb-px">
                     {isLoading ? (
                         <>
@@ -146,6 +147,7 @@ export default function Dashboard() {
                     )}
                 </section>
             </main>
+            <Footer />
         </div>
     );
 }
