@@ -170,7 +170,7 @@ const DefaultLoader = () => (
     </div>
 );
 
-const Map = forwardRef<MapRef, MapProps>(function Map(
+const MapView = forwardRef<MapRef, MapProps>(function MapView(
     {
         children,
         className,
@@ -206,6 +206,17 @@ const Map = forwardRef<MapRef, MapProps>(function Map(
         [styles],
     );
 
+    const initialPropsRef = useRef(props);
+    initialPropsRef.current = props;
+    const initialViewportRef = useRef(viewport);
+    initialViewportRef.current = viewport;
+    const projectionRef = useRef(projection);
+    projectionRef.current = projection;
+    const resolvedThemeRef = useRef(resolvedTheme);
+    resolvedThemeRef.current = resolvedTheme;
+    const mapStylesRef = useRef(mapStyles);
+    mapStylesRef.current = mapStyles;
+
     // Expose the map instance to the parent component
     useImperativeHandle(ref, () => mapInstance as MapLibreGL.Map, [
         mapInstance,
@@ -223,7 +234,9 @@ const Map = forwardRef<MapRef, MapProps>(function Map(
         if (!containerRef.current) return;
 
         const initialStyle =
-            resolvedTheme === "dark" ? mapStyles.dark : mapStyles.light;
+            resolvedThemeRef.current === "dark"
+                ? mapStylesRef.current.dark
+                : mapStylesRef.current.light;
         currentStyleRef.current = initialStyle;
 
         const map = new MapLibreGL.Map({
@@ -233,25 +246,21 @@ const Map = forwardRef<MapRef, MapProps>(function Map(
             attributionControl: {
                 compact: true,
             },
-            ...props,
-            ...viewport,
+            ...initialPropsRef.current,
+            ...initialViewportRef.current,
         });
 
         const styleDataHandler = () => {
             clearStyleTimeout();
-            // Delay to ensure style is fully processed before allowing layer operations
-            // This is a workaround to avoid race conditions with the style loading
-            // else we have to force update every layer on setStyle change
             styleTimeoutRef.current = setTimeout(() => {
                 setIsStyleLoaded(true);
-                if (projection) {
-                    map.setProjection(projection);
+                if (projectionRef.current) {
+                    map.setProjection(projectionRef.current);
                 }
             }, 100);
         };
         const loadHandler = () => setIsLoaded(true);
 
-        // Viewport change handler - skip if triggered by internal update
         const handleMove = () => {
             if (internalUpdateRef.current) return;
             onViewportChangeRef.current?.(getViewport(map));
@@ -272,8 +281,7 @@ const Map = forwardRef<MapRef, MapProps>(function Map(
             setIsStyleLoaded(false);
             setMapInstance(null);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [clearStyleTimeout]);
 
     // Sync controlled viewport to map
     useEffect(() => {
@@ -409,12 +417,21 @@ function MapMarker({
         onDragEnd,
     };
 
+    const longitudeRef = useRef(longitude);
+    longitudeRef.current = longitude;
+    const latitudeRef = useRef(latitude);
+    latitudeRef.current = latitude;
+    const draggableRef = useRef(draggable);
+    draggableRef.current = draggable;
+    const markerOptionsRef = useRef(markerOptions);
+    markerOptionsRef.current = markerOptions;
+
     const marker = useMemo(() => {
         const markerInstance = new MapLibreGL.Marker({
-            ...markerOptions,
+            ...markerOptionsRef.current,
             element: document.createElement("div"),
-            draggable,
-        }).setLngLat([longitude, latitude]);
+            draggable: draggableRef.current,
+        }).setLngLat([longitudeRef.current, latitudeRef.current]);
 
         const handleClick = (e: MouseEvent) =>
             callbacksRef.current.onClick?.(e);
@@ -455,8 +472,6 @@ function MapMarker({
         markerInstance.on("dragend", handleDragEnd);
 
         return markerInstance;
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -467,9 +482,7 @@ function MapMarker({
         return () => {
             marker.remove();
         };
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map]);
+    }, [map, marker]);
 
     if (
         marker.getLngLat().lng !== longitude ||
@@ -549,19 +562,20 @@ function MarkerPopup({
     const { marker, map } = useMarkerContext();
     const container = useMemo(() => document.createElement("div"), []);
     const prevPopupOptions = useRef(popupOptions);
+    const popupOptionsRef = useRef(popupOptions);
+    popupOptionsRef.current = popupOptions;
 
     const popup = useMemo(() => {
         const popupInstance = new MapLibreGL.Popup({
             offset: 16,
-            ...popupOptions,
+            ...popupOptionsRef.current,
             closeButton: false,
         })
             .setMaxWidth("none")
             .setDOMContent(container);
 
         return popupInstance;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [container]);
 
     useEffect(() => {
         if (!map) return;
@@ -572,8 +586,7 @@ function MarkerPopup({
         return () => {
             marker.setPopup(null);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map]);
+    }, [map, marker, popup, container]);
 
     if (popup.isOpen()) {
         const prev = prevPopupOptions.current;
@@ -633,17 +646,18 @@ function MarkerTooltip({
     const { marker, map } = useMarkerContext();
     const container = useMemo(() => document.createElement("div"), []);
     const prevTooltipOptions = useRef(popupOptions);
+    const popupOptionsRef = useRef(popupOptions);
+    popupOptionsRef.current = popupOptions;
 
     const tooltip = useMemo(() => {
         const tooltipInstance = new MapLibreGL.Popup({
             offset: 16,
-            ...popupOptions,
+            ...popupOptionsRef.current,
             closeOnClick: true,
             closeButton: false,
         }).setMaxWidth("none");
 
         return tooltipInstance;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -668,8 +682,7 @@ function MarkerTooltip({
                 ?.removeEventListener("mouseleave", handleMouseLeave);
             tooltip.remove();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map]);
+    }, [map, marker, tooltip, container]);
 
     if (tooltip.isOpen()) {
         const prev = prevTooltipOptions.current;
@@ -958,7 +971,10 @@ function CompassButton({ onClick }: { onClick: () => void }) {
                 viewBox="0 0 24 24"
                 className="size-5 transition-transform duration-200"
                 style={{ transformStyle: "preserve-3d" }}
+                role="img"
+                aria-label="Compass"
             >
+                <title>Compass</title>
                 <path d="M12 2L16 12H12V2Z" className="fill-red-500" />
                 <path d="M12 2L8 12H12V2Z" className="fill-red-300" />
                 <path
@@ -1004,17 +1020,23 @@ function MapPopup({
     onCloseRef.current = onClose;
     const container = useMemo(() => document.createElement("div"), []);
 
+    const longitudeRef = useRef(longitude);
+    longitudeRef.current = longitude;
+    const latitudeRef = useRef(latitude);
+    latitudeRef.current = latitude;
+    const initialPopupOptionsRef = useRef(popupOptions);
+    initialPopupOptionsRef.current = popupOptions;
+
     const popup = useMemo(() => {
         const popupInstance = new MapLibreGL.Popup({
             offset: 16,
-            ...popupOptions,
+            ...initialPopupOptionsRef.current,
             closeButton: false,
         })
             .setMaxWidth("none")
-            .setLngLat([longitude, latitude]);
+            .setLngLat([longitudeRef.current, latitudeRef.current]);
 
         return popupInstance;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -1033,8 +1055,7 @@ function MapPopup({
                 popup.remove();
             }
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map]);
+    }, [map, popup, container]);
 
     if (popup.isOpen()) {
         const prev = popupOptionsRef.current;
@@ -1128,6 +1149,15 @@ function MapRoute({
     const sourceId = `route-source-${id}`;
     const layerId = `route-layer-${id}`;
 
+    const colorRef = useRef(color);
+    colorRef.current = color;
+    const widthRef = useRef(width);
+    widthRef.current = width;
+    const opacityRef = useRef(opacity);
+    opacityRef.current = opacity;
+    const dashArrayRef = useRef(dashArray);
+    dashArrayRef.current = dashArray;
+
     // Add source and layer on mount
     useEffect(() => {
         if (!isLoaded || !map) return;
@@ -1147,10 +1177,12 @@ function MapRoute({
             source: sourceId,
             layout: { "line-join": "round", "line-cap": "round" },
             paint: {
-                "line-color": color,
-                "line-width": width,
-                "line-opacity": opacity,
-                ...(dashArray && { "line-dasharray": dashArray }),
+                "line-color": colorRef.current,
+                "line-width": widthRef.current,
+                "line-opacity": opacityRef.current,
+                ...(dashArrayRef.current && {
+                    "line-dasharray": dashArrayRef.current,
+                }),
             },
         });
 
@@ -1162,8 +1194,7 @@ function MapRoute({
                 // ignore
             }
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoaded, map]);
+    }, [isLoaded, map, sourceId, layerId]);
 
     // When coordinates change, update the source data
     useEffect(() => {
@@ -1281,6 +1312,19 @@ function MapClusterLayer<
         pointColor,
     });
 
+    const dataRef = useRef(data);
+    dataRef.current = data;
+    const clusterMaxZoomRef = useRef(clusterMaxZoom);
+    clusterMaxZoomRef.current = clusterMaxZoom;
+    const clusterRadiusRef = useRef(clusterRadius);
+    clusterRadiusRef.current = clusterRadius;
+    const clusterColorsRef = useRef(clusterColors);
+    clusterColorsRef.current = clusterColors;
+    const clusterThresholdsRef = useRef(clusterThresholds);
+    clusterThresholdsRef.current = clusterThresholds;
+    const pointColorRef = useRef(pointColor);
+    pointColorRef.current = pointColor;
+
     // Add source and layers on mount
     useEffect(() => {
         if (!isLoaded || !map) return;
@@ -1288,10 +1332,10 @@ function MapClusterLayer<
         // Add clustered GeoJSON source
         map.addSource(sourceId, {
             type: "geojson",
-            data,
+            data: dataRef.current,
             cluster: true,
-            clusterMaxZoom,
-            clusterRadius,
+            clusterMaxZoom: clusterMaxZoomRef.current,
+            clusterRadius: clusterRadiusRef.current,
         });
 
         // Add cluster circles layer
@@ -1304,19 +1348,19 @@ function MapClusterLayer<
                 "circle-color": [
                     "step",
                     ["get", "point_count"],
-                    clusterColors[0],
-                    clusterThresholds[0],
-                    clusterColors[1],
-                    clusterThresholds[1],
-                    clusterColors[2],
+                    clusterColorsRef.current[0],
+                    clusterThresholdsRef.current[0],
+                    clusterColorsRef.current[1],
+                    clusterThresholdsRef.current[1],
+                    clusterColorsRef.current[2],
                 ],
                 "circle-radius": [
                     "step",
                     ["get", "point_count"],
                     20,
-                    clusterThresholds[0],
+                    clusterThresholdsRef.current[0],
                     30,
-                    clusterThresholds[1],
+                    clusterThresholdsRef.current[1],
                     40,
                 ],
                 "circle-stroke-width": 1,
@@ -1347,7 +1391,7 @@ function MapClusterLayer<
             source: sourceId,
             filter: ["!", ["has", "point_count"]],
             paint: {
-                "circle-color": pointColor,
+                "circle-color": pointColorRef.current,
                 "circle-radius": 5,
                 "circle-stroke-width": 2,
                 "circle-stroke-color": "#fff",
@@ -1367,8 +1411,14 @@ function MapClusterLayer<
                 // ignore
             }
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoaded, map, sourceId]);
+    }, [
+        isLoaded,
+        map,
+        sourceId,
+        clusterLayerId,
+        clusterCountLayerId,
+        unclusteredLayerId,
+    ]);
 
     // Update source data when data prop changes (only for non-URL data)
     useEffect(() => {
@@ -1543,7 +1593,8 @@ function MapClusterLayer<
 }
 
 export {
-    Map,
+    MapView,
+    MapView as Map,
     useMap,
     MapMarker,
     MarkerContent,
