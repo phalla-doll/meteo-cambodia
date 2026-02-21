@@ -36,4 +36,10 @@ export const trackEvent = {
     errorRetry: () => {
         sendGAEvent("event", "error_recovery", { action: "retry" });
     },
+
+    footerLinkClick: (link: string) => {
+        sendGAEvent("event", "footer_link_click", {
+            link_target: link,
+        });
+    },
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
@@ -17,6 +18,9 @@ export function Footer({ className }: FooterProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-primary transition-colors no-underline"
+                        onClick={() =>
+                            trackEvent.footerLinkClick("manthaa.dev")
+                        }
                     >
                         Mantha
                     </a>{" "}
