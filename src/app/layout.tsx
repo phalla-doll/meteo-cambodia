@@ -16,6 +16,25 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
     title: "METEO CAMBODIA",
     description: "Real-time weather intelligence for 25 Cambodian provinces",
+    metadataBase: new URL("https://meteo-cambodia.vercel.app"),
+    alternates: {
+        canonical: "/",
+    },
+    openGraph: {
+        title: "METEO CAMBODIA",
+        description:
+            "Real-time weather intelligence for 25 Cambodian provinces",
+        url: "https://meteo-cambodia.vercel.app",
+        siteName: "METEO CAMBODIA",
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "METEO CAMBODIA",
+        description:
+            "Real-time weather intelligence for 25 Cambodian provinces",
+    },
     icons: {
         icon: "/favicon.svg",
         apple: "/apple-touch-icon.svg",
