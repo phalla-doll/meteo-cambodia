@@ -92,33 +92,25 @@ export function ExchangeRateMarquee() {
     );
 
     return (
-        <div className="bg-card border-b border-border py-2">
-            <div className="container mx-auto px-4">
-                <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono whitespace-nowrap">
-                        Rates
-                    </span>
-                    <Marquee speed={30} className="flex-1">
-                        <div className="flex items-center">
-                            {rates.map((rate, index) => (
-                                <div
-                                    key={rate.currency_id}
-                                    className="flex items-center"
-                                >
-                                    <RateItem
-                                        symbol={rate.currency_id}
-                                        bid={rate.bid}
-                                        ask={rate.ask}
-                                        currency={rate.currency}
-                                    />
-                                    {index < rates.length - 1 && separator}
-                                </div>
-                            ))}
+        <div className="bg-card border-b border-border py-2 overflow-hidden">
+            <Marquee speed={60}>
+                <div className="flex items-center">
+                    {rates.map((rate) => (
+                        <div
+                            key={rate.currency_id}
+                            className="flex items-center"
+                        >
+                            <RateItem
+                                symbol={rate.currency_id}
+                                bid={rate.bid}
+                                ask={rate.ask}
+                                currency={rate.currency}
+                            />
                             {separator}
                         </div>
-                    </Marquee>
+                    ))}
                 </div>
-            </div>
+            </Marquee>
         </div>
     );
 }

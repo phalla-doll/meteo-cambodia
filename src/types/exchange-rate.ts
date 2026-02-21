@@ -15,5 +15,26 @@ export interface ExchangeRateResponse {
     data: ExchangeRateData;
 }
 
-export const SUPPORTED_CURRENCIES = ["USD", "EUR", "THB", "CNY"] as const;
+export const SUPPORTED_CURRENCIES = [
+    "USD",
+    "EUR",
+    "THB",
+    "CNY",
+    "JPY",
+    "GBP",
+    "SGD",
+    "AUD",
+    "CAD",
+    "CHF",
+    "HKD",
+    "INR",
+    "KRW",
+    "MYR",
+    "NZD",
+    "PHP",
+    "VND",
+    "LAK",
+    "TWD",
+    "SEK",
+] as const;
 export type SupportedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
