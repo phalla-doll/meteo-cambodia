@@ -1,6 +1,7 @@
 "use client";
 
 import { RefreshCw } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
@@ -24,16 +25,18 @@ export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
         <header className="border-b border-border bg-background sticky top-0 z-50">
             <div className="h-1 bg-primary"></div>
             <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary"></div>
-                        <h1 className="text-sm font-mono font-bold tracking-widest text-primary uppercase">
-                            Tactical Weather System
-                        </h1>
-                    </div>
-                    <span className="text-muted-foreground text-xs font-mono hidden sm:block">
-                        CAMBODIA · 25 PROVINCES
-                    </span>
+                <div className="flex items-center gap-2">
+                    <Image
+                        src="/logo.svg"
+                        alt="Meteo Cambodia"
+                        width={24}
+                        height={24}
+                        className="shrink-0"
+                    />
+                    <h1 className="text-sm font-mono font-bold tracking-widest uppercase">
+                        <span className="text-primary">METEO</span>
+                        <span className="text-foreground"> CAMBODIA</span>
+                    </h1>
                 </div>
                 <div className="flex items-center gap-4">
                     {lastUpdated ? (

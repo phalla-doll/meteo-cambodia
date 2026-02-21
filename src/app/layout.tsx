@@ -13,8 +13,12 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-    title: "TACTICAL WEATHER SYSTEM",
+    title: "METEO CAMBODIA",
     description: "Real-time weather intelligence for 25 Cambodian provinces",
+    icons: {
+        icon: "/favicon.svg",
+        apple: "/apple-touch-icon.svg",
+    },
 };
 
 export default function RootLayout({
