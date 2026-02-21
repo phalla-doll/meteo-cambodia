@@ -22,8 +22,8 @@ export function CurrentConditions({ weather }: CurrentConditionsProps) {
     }
 
     return (
-        <Card className="h-full border-border">
-            <CardContent className="p-6 h-full flex flex-col">
+        <Card className="h-full border-border corner-glow-subtle card-noise">
+            <CardContent className="p-6 h-full flex flex-col relative z-10">
                 <div className="flex items-start gap-4">
                     <WeatherIcon
                         condition={weather.condition}
