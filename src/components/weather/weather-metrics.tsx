@@ -14,7 +14,18 @@ interface WeatherMetricsProps {
     weather: WeatherData | null;
 }
 
-const metrics = [
+type MetricKey = "wind_kph" | "humidity" | "precip_mm" | "cloud";
+type SubKey = "wind_dir";
+
+interface MetricConfig {
+    key: MetricKey;
+    label: string;
+    unit: string;
+    icon: typeof WindPowerIcon;
+    subKey?: SubKey;
+}
+
+const metrics: MetricConfig[] = [
     {
         key: "wind_kph",
         label: "Wind",
@@ -46,20 +57,9 @@ export function WeatherMetrics({ weather }: WeatherMetricsProps) {
     return (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
             {metrics.map((metric) => {
-                const value = weather
-                    ? (weather as unknown as Record<string, number | string>)[
-                          metric.key
-                      ]
-                    : null;
+                const value = weather ? weather[metric.key] : null;
                 const subValue =
-                    metric.subKey && weather
-                        ? (
-                              weather as unknown as Record<
-                                  string,
-                                  number | string
-                              >
-                          )[metric.subKey]
-                        : null;
+                    metric.subKey && weather ? weather[metric.subKey] : null;
 
                 return (
                     <Card key={metric.key} className="border-0 bg-card">

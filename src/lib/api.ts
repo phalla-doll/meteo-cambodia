@@ -6,6 +6,27 @@ import type {
 
 const BASE_URL = "/api/weather";
 
+export async function fetcher<T>(url: string): Promise<T> {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
+    return response.json();
+}
+
+export function createDataFetcher<T>(
+    dataKey: string,
+): (url: string) => Promise<T> {
+    return async (url: string): Promise<T> => {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
+        const json = await response.json();
+        return json[dataKey];
+    };
+}
+
 export async function fetchAllWeather(): Promise<WeatherData[]> {
     const response = await fetch(BASE_URL, {
         next: { revalidate: 300 },

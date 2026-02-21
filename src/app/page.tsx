@@ -12,6 +12,19 @@ import { WeatherMetrics } from "@/components/weather/weather-metrics";
 import { useWeather } from "@/hooks/use-weather";
 import { trackEvent } from "@/lib/analytics";
 
+const SKELETON_KEYS = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+] as const;
+
 const ProvinceMap = dynamic(
     () =>
         import("@/components/weather/province-map").then(
@@ -120,22 +133,8 @@ export default function Dashboard() {
                 <section>
                     {isLoading ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-px bg-border">
-                            {[
-                                "01",
-                                "02",
-                                "03",
-                                "04",
-                                "05",
-                                "06",
-                                "07",
-                                "08",
-                                "09",
-                                "10",
-                            ].map((n) => (
-                                <Skeleton
-                                    key={`skeleton-${n}`}
-                                    className="h-16 bg-card"
-                                />
+                            {SKELETON_KEYS.map((key) => (
+                                <Skeleton key={key} className="h-16 bg-card" />
                             ))}
                         </div>
                     ) : (
