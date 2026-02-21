@@ -1,6 +1,6 @@
-# National Weather Analytics Dashboard V1
+# Meteo Cambodia
 
-A weather analytics dashboard for Cambodia built with Next.js.
+A tactical weather analytics dashboard for Cambodia built with Next.js.
 
 ## Data Source
 
@@ -23,11 +23,11 @@ This project is based on a Stitch design: **National Weather Analytics Dashboard
 
 | Property | Value |
 |----------|-------|
-| Color Mode | Light |
-| Primary Color | `#137fec` |
-| Font | Inter |
-| Roundness | Round Eight |
-| Saturation | 2 |
+| Color Mode | Dark |
+| Primary Color | `#bfff00` (Neon Lime) |
+| Font | Space Grotesk, JetBrains Mono |
+| Roundness | None (Tactical) |
+| Style | Minimal, Grid-based |
 
 ### Screens
 
