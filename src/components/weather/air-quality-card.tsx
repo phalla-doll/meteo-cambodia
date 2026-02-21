@@ -36,8 +36,8 @@ export function AirQualityCard({ province }: AirQualityCardProps) {
 
     if (isLoading) {
         return (
-            <div className="bg-card border-b border-border py-3">
-                <div className="container mx-auto px-4">
+            <div className="bg-card border-b border-border h-[64px]">
+                <div className="container mx-auto px-4 h-full flex items-center">
                     <Skeleton className="h-10 w-full" />
                 </div>
             </div>
@@ -46,8 +46,8 @@ export function AirQualityCard({ province }: AirQualityCardProps) {
 
     if (isError || !aqi) {
         return (
-            <div className="bg-card border-b border-border py-3">
-                <div className="container mx-auto px-4">
+            <div className="bg-card border-b border-border h-[64px]">
+                <div className="container mx-auto px-4 h-full flex items-center">
                     <p className="text-xs font-mono text-muted-foreground">
                         AQI data unavailable for {province}
                     </p>
@@ -59,11 +59,11 @@ export function AirQualityCard({ province }: AirQualityCardProps) {
     const aqiInfo = getAqiInfo(aqi.us_epa_index);
 
     return (
-        <div
-            className={`bg-card border-b border-border py-3 ${aqiInfo.bgColor}`}
-        >
-            <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="bg-card border-b border-border h-[64px]">
+            <div
+                className={`container mx-auto px-4 h-full flex items-center ${aqiInfo.bgColor}`}
+            >
+                <div className="flex items-center justify-between gap-4 flex-wrap w-full">
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-2">
                             <Wind className="w-4 h-4 text-muted-foreground" />
