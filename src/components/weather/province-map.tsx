@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import type MapLibreGL from "maplibre-gl";
+import { useEffect, useMemo, useRef } from "react";
 import {
     Map as MapComponent,
     MapMarker,
@@ -21,6 +22,8 @@ export function ProvinceMap({
     selectedProvince,
     onSelectProvince,
 }: ProvinceMapProps) {
+    const mapRef = useRef<MapLibreGL.Map | null>(null);
+
     const weatherByProvince = useMemo(() => {
         const result = new Map<string, WeatherData>();
         for (const w of weather) {
@@ -29,9 +32,29 @@ export function ProvinceMap({
         return result;
     }, [weather]);
 
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) return;
+
+        if (selectedProvince && provinceCoords[selectedProvince]) {
+            map.flyTo({
+                center: provinceCoords[selectedProvince],
+                zoom: 8,
+                duration: 800,
+            });
+        } else {
+            map.flyTo({
+                center: [105.0, 12.5],
+                zoom: 6,
+                duration: 800,
+            });
+        }
+    }, [selectedProvince]);
+
     return (
         <div className="h-[400px] md:h-full min-h-[400px] border border-border overflow-hidden">
             <MapComponent
+                ref={mapRef}
                 center={[105.0, 12.5]}
                 zoom={6}
                 className="h-full w-full"
