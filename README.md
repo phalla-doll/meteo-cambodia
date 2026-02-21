@@ -1,5 +1,7 @@
 # Meteo Cambodia
 
+![Meteo Cambodia Dashboard](./src/app/opengraph-image.png)
+
 A tactical weather analytics dashboard for Cambodia built with Next.js.
 
 ## Data Source
