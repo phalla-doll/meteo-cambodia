@@ -1,14 +1,24 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { useUv } from "@/hooks/use-uv";
+import { getUvInfo } from "@/types/uv";
 import type { WeatherData } from "@/types/weather";
 import { WeatherIcon } from "./weather-icon";
 
 interface CurrentConditionsProps {
     weather: WeatherData | null;
+    province: string | null;
 }
 
-export function CurrentConditions({ weather }: CurrentConditionsProps) {
+export function CurrentConditions({
+    weather,
+    province,
+}: CurrentConditionsProps) {
+    const { uv } = useUv(province);
+
+    const uvInfo = uv ? getUvInfo(uv.uv) : null;
+
     if (!weather) {
         return (
             <Card className="h-full flex items-center justify-center border-border">
@@ -56,7 +66,7 @@ export function CurrentConditions({ weather }: CurrentConditionsProps) {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-border">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-3 gap-4 text-sm">
                         <div className="space-y-1">
                             <p className="text-muted-foreground font-mono text-xs uppercase">
                                 Humidity
@@ -80,6 +90,23 @@ export function CurrentConditions({ weather }: CurrentConditionsProps) {
                         </div>
                         <div className="space-y-1">
                             <p className="text-muted-foreground font-mono text-xs uppercase">
+                                UV Index
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <p className="font-mono text-foreground text-lg">
+                                    {uv?.uv.toFixed(1) ?? "--"}
+                                </p>
+                                {uvInfo && (
+                                    <span
+                                        className={`text-[10px] font-mono uppercase tracking-wider ${uvInfo.textColor}`}
+                                    >
+                                        {uvInfo.level}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-muted-foreground font-mono text-xs uppercase">
                                 Pressure
                             </p>
                             <p className="font-mono text-foreground text-lg">
@@ -99,6 +126,18 @@ export function CurrentConditions({ weather }: CurrentConditionsProps) {
                                 <span className="text-muted-foreground text-sm">
                                     {" "}
                                     km
+                                </span>
+                            </p>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-muted-foreground font-mono text-xs uppercase">
+                                Dewpoint
+                            </p>
+                            <p className="font-mono text-foreground text-lg">
+                                {Math.round(weather.dewpoint_c)}
+                                <span className="text-muted-foreground text-sm">
+                                    {" "}
+                                    °C
                                 </span>
                             </p>
                         </div>

@@ -89,7 +89,10 @@ export default function Dashboard() {
                                 selectedProvince={selectedProvince}
                                 onSelectProvince={setSelectedProvince}
                             />
-                            <CurrentConditions weather={selectedWeather} />
+                            <CurrentConditions
+                                weather={selectedWeather}
+                                province={selectedProvince}
+                            />
                         </>
                     )}
                 </div>
