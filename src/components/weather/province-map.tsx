@@ -8,6 +8,7 @@ import {
     MarkerContent,
     MarkerTooltip,
 } from "@/components/ui/map";
+import { trackEvent } from "@/lib/analytics";
 import { provinceCoords } from "@/lib/api";
 import type { WeatherData } from "@/types/weather";
 
@@ -69,7 +70,10 @@ export function ProvinceMap({
                             key={name}
                             longitude={coords[0]}
                             latitude={coords[1]}
-                            onClick={() => onSelectProvince(name)}
+                            onClick={() => {
+                                trackEvent.provinceSelected(name);
+                                onSelectProvince(name);
+                            }}
                         >
                             <MarkerContent>
                                 <div

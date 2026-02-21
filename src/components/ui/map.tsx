@@ -25,7 +25,7 @@ import {
     useState,
 } from "react";
 import { createPortal } from "react-dom";
-
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 // Check document class for theme (works with next-themes, etc.)
@@ -802,18 +802,22 @@ function MapControls({
     const [waitingForLocation, setWaitingForLocation] = useState(false);
 
     const handleZoomIn = useCallback(() => {
+        trackEvent.mapZoomIn();
         map?.zoomTo(map.getZoom() + 1, { duration: 300 });
     }, [map]);
 
     const handleZoomOut = useCallback(() => {
+        trackEvent.mapZoomOut();
         map?.zoomTo(map.getZoom() - 1, { duration: 300 });
     }, [map]);
 
     const handleResetBearing = useCallback(() => {
+        trackEvent.mapCompassReset();
         map?.resetNorthPitch({ duration: 300 });
     }, [map]);
 
     const handleLocate = useCallback(() => {
+        trackEvent.mapLocate();
         setWaitingForLocation(true);
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
@@ -839,6 +843,7 @@ function MapControls({
     }, [map, onLocate]);
 
     const handleFullscreen = useCallback(() => {
+        trackEvent.mapFullscreen();
         const container = map?.getContainer();
         if (!container) return;
         if (document.fullscreenElement) {

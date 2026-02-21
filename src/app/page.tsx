@@ -10,6 +10,7 @@ import { Header } from "@/components/weather/header";
 import { ProvinceGrid } from "@/components/weather/province-grid";
 import { WeatherMetrics } from "@/components/weather/weather-metrics";
 import { useWeather } from "@/hooks/use-weather";
+import { trackEvent } from "@/lib/analytics";
 
 const ProvinceMap = dynamic(
     () =>
@@ -55,7 +56,10 @@ export default function Dashboard() {
                     </p>
                     <button
                         type="button"
-                        onClick={() => mutate()}
+                        onClick={() => {
+                            trackEvent.errorRetry();
+                            mutate();
+                        }}
                         className="mt-4 text-primary font-mono text-sm uppercase tracking-wide hover:underline"
                     >
                         Retry
@@ -71,7 +75,10 @@ export default function Dashboard() {
             <Header
                 lastUpdated={lastUpdated}
                 isLoading={isLoading}
-                onRefresh={() => mutate()}
+                onRefresh={() => {
+                    trackEvent.dataRefreshed();
+                    mutate();
+                }}
             />
             <AirQualityCard province={selectedProvince} />
 

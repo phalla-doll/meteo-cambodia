@@ -1,5 +1,6 @@
 "use client";
 
+import { trackEvent } from "@/lib/analytics";
 import type { WeatherData } from "@/types/weather";
 import { WeatherCard } from "./weather-card";
 
@@ -21,7 +22,10 @@ export function ProvinceGrid({
                     key={w.id}
                     weather={w}
                     isSelected={selectedProvince === w.name}
-                    onClick={() => onSelectProvince(w.name)}
+                    onClick={() => {
+                        trackEvent.provinceSelected(w.name);
+                        onSelectProvince(w.name);
+                    }}
                     compact
                 />
             ))}
