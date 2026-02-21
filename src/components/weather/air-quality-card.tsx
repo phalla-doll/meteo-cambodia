@@ -38,7 +38,27 @@ export function AirQualityCard({ province }: AirQualityCardProps) {
         return (
             <div className="bg-card border-b border-border h-[64px]">
                 <div className="container mx-auto px-4 h-full flex items-center">
-                    <Skeleton className="h-10 w-full" />
+                    <div className="flex items-center justify-between gap-4 flex-wrap w-full">
+                        <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
+                                <Skeleton className="w-4 h-4 rounded-full" />
+                                <Skeleton className="h-3 w-16" />
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Skeleton className="h-4 w-12" />
+                                <Skeleton className="h-5 w-6" />
+                                <Skeleton className="h-3 w-12" />
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4 flex-wrap">
+                            <Skeleton className="h-4 w-20" />
+                            <Skeleton className="h-4 w-20" />
+                            <Skeleton className="h-4 w-20" />
+                            <Skeleton className="h-4 w-20" />
+                            <Skeleton className="h-4 w-20" />
+                            <Skeleton className="h-4 w-20" />
+                        </div>
+                    </div>
                 </div>
             </div>
         );
