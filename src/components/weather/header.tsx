@@ -1,6 +1,7 @@
 "use client";
 
-import { RefreshCw } from "lucide-react";
+import { ReloadIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
@@ -55,8 +56,11 @@ export function Header({ lastUpdated, isLoading, onRefresh }: HeaderProps) {
                         disabled={isLoading}
                         className="h-8"
                     >
-                        <RefreshCw
-                            className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`}
+                        <HugeiconsIcon
+                            icon={ReloadIcon}
+                            size={14}
+                            color="currentColor"
+                            className={isLoading ? "animate-spin" : ""}
                         />
                         <span className="hidden sm:inline">SYNC</span>
                     </Button>

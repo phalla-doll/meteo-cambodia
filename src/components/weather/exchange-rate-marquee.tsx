@@ -1,4 +1,9 @@
-import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
+import {
+    ArrowDownRight01Icon,
+    ArrowUpRight01Icon,
+    MinusSignIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Marquee } from "@/components/ui/marquee";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useExchangeRates } from "@/hooks/use-exchange-rates";
@@ -35,10 +40,29 @@ function RateItem({
             </span>
             <span className="text-muted-foreground font-mono text-xs">KHR</span>
             <span className="flex items-center gap-0.5">
-                {isUp && <ArrowUpRight className="w-3 h-3 text-green-500" />}
-                {isDown && <ArrowDownRight className="w-3 h-3 text-red-500" />}
+                {isUp && (
+                    <HugeiconsIcon
+                        icon={ArrowUpRight01Icon}
+                        size={12}
+                        color="currentColor"
+                        className="text-green-500"
+                    />
+                )}
+                {isDown && (
+                    <HugeiconsIcon
+                        icon={ArrowDownRight01Icon}
+                        size={12}
+                        color="currentColor"
+                        className="text-red-500"
+                    />
+                )}
                 {!isUp && !isDown && (
-                    <Minus className="w-3 h-3 text-muted-foreground" />
+                    <HugeiconsIcon
+                        icon={MinusSignIcon}
+                        size={12}
+                        color="currentColor"
+                        className="text-muted-foreground"
+                    />
                 )}
                 <span className="font-mono text-[10px] text-muted-foreground">
                     {spread}

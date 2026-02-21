@@ -1,4 +1,5 @@
-import { Wind } from "lucide-react";
+import { WindPowerIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAqi } from "@/hooks/use-aqi";
 import { getAqiInfo } from "@/types/aqi";
@@ -86,7 +87,12 @@ export function AirQualityCard({ province }: AirQualityCardProps) {
                 <div className="flex items-center justify-between gap-4 flex-wrap w-full">
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-2">
-                            <Wind className="w-4 h-4 text-muted-foreground" />
+                            <HugeiconsIcon
+                                icon={WindPowerIcon}
+                                size={16}
+                                color="currentColor"
+                                className="text-muted-foreground"
+                            />
                             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
                                 Air Quality
                             </span>

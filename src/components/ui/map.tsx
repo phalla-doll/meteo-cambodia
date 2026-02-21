@@ -2,7 +2,15 @@
 
 import MapLibreGL, { type MarkerOptions, type PopupOptions } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { Loader2, Locate, Maximize, Minus, Plus, X } from "lucide-react";
+import {
+    Cancel01Icon,
+    Gps01Icon,
+    Loading03Icon,
+    Maximize01Icon,
+    MinusSignIcon,
+    PlusSignIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
     createContext,
     forwardRef,
@@ -596,7 +604,11 @@ function MarkerPopup({
                     className="absolute top-1 right-1 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     aria-label="Close popup"
                 >
-                    <X className="h-4 w-4" />
+                    <HugeiconsIcon
+                        icon={Cancel01Icon}
+                        size={16}
+                        color="currentColor"
+                    />
                     <span className="sr-only">Close</span>
                 </button>
             )}
@@ -847,10 +859,18 @@ function MapControls({
             {showZoom && (
                 <ControlGroup>
                     <ControlButton onClick={handleZoomIn} label="Zoom in">
-                        <Plus className="size-4" />
+                        <HugeiconsIcon
+                            icon={PlusSignIcon}
+                            size={16}
+                            color="currentColor"
+                        />
                     </ControlButton>
                     <ControlButton onClick={handleZoomOut} label="Zoom out">
-                        <Minus className="size-4" />
+                        <HugeiconsIcon
+                            icon={MinusSignIcon}
+                            size={16}
+                            color="currentColor"
+                        />
                     </ControlButton>
                 </ControlGroup>
             )}
@@ -867,9 +887,18 @@ function MapControls({
                         disabled={waitingForLocation}
                     >
                         {waitingForLocation ? (
-                            <Loader2 className="size-4 animate-spin" />
+                            <HugeiconsIcon
+                                icon={Loading03Icon}
+                                size={16}
+                                color="currentColor"
+                                className="animate-spin"
+                            />
                         ) : (
-                            <Locate className="size-4" />
+                            <HugeiconsIcon
+                                icon={Gps01Icon}
+                                size={16}
+                                color="currentColor"
+                            />
                         )}
                     </ControlButton>
                 </ControlGroup>
@@ -880,7 +909,11 @@ function MapControls({
                         onClick={handleFullscreen}
                         label="Toggle fullscreen"
                     >
-                        <Maximize className="size-4" />
+                        <HugeiconsIcon
+                            icon={Maximize01Icon}
+                            size={16}
+                            color="currentColor"
+                        />
                     </ControlButton>
                 </ControlGroup>
             )}
@@ -1035,7 +1068,11 @@ function MapPopup({
                     className="absolute top-1 right-1 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     aria-label="Close popup"
                 >
-                    <X className="h-4 w-4" />
+                    <HugeiconsIcon
+                        icon={Cancel01Icon}
+                        size={16}
+                        color="currentColor"
+                    />
                     <span className="sr-only">Close</span>
                 </button>
             )}

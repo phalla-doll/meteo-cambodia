@@ -1,6 +1,12 @@
 "use client";
 
-import { Cloud, Droplets, Gauge, Wind } from "lucide-react";
+import {
+    CloudIcon,
+    DashboardSpeed01Icon,
+    DropletIcon,
+    WindPowerIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { WeatherData } from "@/types/weather";
 
@@ -13,26 +19,26 @@ const metrics = [
         key: "wind_kph",
         label: "Wind",
         unit: "km/h",
-        icon: Wind,
+        icon: WindPowerIcon,
         subKey: "wind_dir",
     },
     {
         key: "humidity",
         label: "Humidity",
         unit: "%",
-        icon: Droplets,
+        icon: DropletIcon,
     },
     {
         key: "precip_mm",
         label: "Precipitation",
         unit: "mm",
-        icon: Cloud,
+        icon: CloudIcon,
     },
     {
         key: "cloud",
         label: "Cloud Cover",
         unit: "%",
-        icon: Gauge,
+        icon: DashboardSpeed01Icon,
     },
 ];
 
@@ -40,7 +46,6 @@ export function WeatherMetrics({ weather }: WeatherMetricsProps) {
     return (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
             {metrics.map((metric) => {
-                const Icon = metric.icon;
                 const value = weather
                     ? (weather as unknown as Record<string, number | string>)[
                           metric.key
@@ -60,7 +65,11 @@ export function WeatherMetrics({ weather }: WeatherMetricsProps) {
                     <Card key={metric.key} className="border-0 bg-card">
                         <CardContent className="p-4">
                             <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                                <Icon className="h-4 w-4" />
+                                <HugeiconsIcon
+                                    icon={metric.icon}
+                                    size={16}
+                                    color="currentColor"
+                                />
                                 <span className="text-xs font-mono uppercase tracking-wide">
                                     {metric.label}
                                 </span>
