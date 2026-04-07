@@ -86,19 +86,21 @@ export function ProvinceMap({
                                 <div
                                     className={`flex items-center justify-center w-8 h-8 border-2 transition-all cursor-pointer ${
                                         isSelected
-                                            ? "bg-primary border-primary glow-primary"
+                                            ? "border-primary"
                                             : tempColor
                                               ? `${tempColor.bg} ${tempColor.border} ${tempColor.glow}`
                                               : "bg-card border-border hover:border-primary"
+                                    } ${
+                                        tempColor
+                                            ? `${tempColor.bg} ${tempColor.glow}`
+                                            : ""
                                     }`}
                                 >
                                     <span
                                         className={`text-xs font-mono font-bold ${
-                                            isSelected
-                                                ? "text-primary-foreground"
-                                                : tempColor
-                                                  ? tempColor.text
-                                                  : "text-foreground"
+                                            tempColor
+                                                ? tempColor.text
+                                                : "text-foreground"
                                         }`}
                                     >
                                         {provinceWeather
