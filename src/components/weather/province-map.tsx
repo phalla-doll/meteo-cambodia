@@ -50,7 +50,7 @@ export function ProvinceMap({
         } else {
             map.flyTo({
                 center: [105.0, 12.5],
-                zoom: 6,
+                zoom: 6.5,
                 duration: 800,
             });
         }
@@ -61,7 +61,7 @@ export function ProvinceMap({
             <MapComponent
                 ref={mapRef}
                 center={[105.0, 12.5]}
-                zoom={6}
+                zoom={6.5}
                 className="h-full w-full"
                 theme="dark"
             >
