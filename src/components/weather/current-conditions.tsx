@@ -52,21 +52,20 @@ export function CurrentConditions({
                 </div>
 
                 <div className="mt-auto pt-8">
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-7xl font-bold text-foreground font-mono data-pulse">
-                            {Math.round(weather.temp_c)}
-                        </span>
-                        <span className="text-3xl text-primary font-mono">
-                            °C
-                        </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-2 font-mono">
-                        FEELS LIKE {Math.round(weather.feelslike_c)}°C
-                    </p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-border">
-                    <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div className="grid grid-cols-4 gap-4 items-center">
+                        <div className="row-span-2">
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-7xl font-bold text-foreground font-mono data-pulse">
+                                    {Math.round(weather.temp_c)}
+                                </span>
+                                <span className="text-3xl text-primary font-mono">
+                                    °C
+                                </span>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-2 font-mono">
+                                FEELS LIKE {Math.round(weather.feelslike_c)}°C
+                            </p>
+                        </div>
                         <div className="space-y-1">
                             <p className="text-muted-foreground font-mono text-xs uppercase">
                                 Humidity
@@ -107,18 +106,6 @@ export function CurrentConditions({
                         </div>
                         <div className="space-y-1">
                             <p className="text-muted-foreground font-mono text-xs uppercase">
-                                Pressure
-                            </p>
-                            <p className="font-mono text-foreground text-lg">
-                                {weather.pressure_mb}
-                                <span className="text-muted-foreground text-sm">
-                                    {" "}
-                                    mb
-                                </span>
-                            </p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-muted-foreground font-mono text-xs uppercase">
                                 Visibility
                             </p>
                             <p className="font-mono text-foreground text-lg">
@@ -138,6 +125,18 @@ export function CurrentConditions({
                                 <span className="text-muted-foreground text-sm">
                                     {" "}
                                     °C
+                                </span>
+                            </p>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-muted-foreground font-mono text-xs uppercase">
+                                Pressure
+                            </p>
+                            <p className="font-mono text-foreground text-lg">
+                                {weather.pressure_mb}
+                                <span className="text-muted-foreground text-sm">
+                                    {" "}
+                                    mb
                                 </span>
                             </p>
                         </div>
