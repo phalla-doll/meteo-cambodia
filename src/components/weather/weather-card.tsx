@@ -1,6 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { getTemperatureColor } from "@/lib/temperature-color";
 import { cn } from "@/lib/utils";
 import type { WeatherData } from "@/types/weather";
 import { WeatherIcon } from "./weather-icon";
@@ -55,8 +56,11 @@ export function WeatherCard({
                 <div className="text-right">
                     <p
                         className={cn(
-                            "font-bold text-foreground font-mono",
+                            "font-bold font-mono",
                             compact ? "text-lg" : "text-2xl",
+                            compact
+                                ? getTemperatureColor(weather.temp_c).textColor
+                                : "text-foreground",
                         )}
                     >
                         {Math.round(weather.temp_c)}
