@@ -1211,7 +1211,7 @@ function MapRoute({
     }, [isLoaded, map, coordinates, sourceId]);
 
     useEffect(() => {
-        if (!isLoaded || !map || !map.getLayer(layerId)) return;
+        if (!isLoaded || !map?.getLayer(layerId)) return;
 
         map.setPaintProperty(layerId, "line-color", color);
         map.setPaintProperty(layerId, "line-width", width);
@@ -1592,19 +1592,18 @@ function MapClusterLayer<
     return null;
 }
 
+export type { MapRef, MapViewport };
 export {
+    MapClusterLayer,
+    MapControls,
+    MapMarker,
+    MapPopup,
+    MapRoute,
     MapView,
     MapView as Map,
-    useMap,
-    MapMarker,
     MarkerContent,
+    MarkerLabel,
     MarkerPopup,
     MarkerTooltip,
-    MarkerLabel,
-    MapPopup,
-    MapControls,
-    MapRoute,
-    MapClusterLayer,
+    useMap,
 };
-
-export type { MapRef, MapViewport };
