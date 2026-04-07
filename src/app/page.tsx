@@ -33,7 +33,7 @@ const ProvinceMap = dynamic(
         ),
     {
         ssr: false,
-        loading: () => <Skeleton className="h-[400px] bg-card" />,
+        loading: () => <Skeleton className="h-[500px] bg-card" />,
     },
 );
 
@@ -97,24 +97,26 @@ export default function Dashboard() {
             <AirQualityCard province={selectedProvince} />
 
             <main className="container mx-auto px-4 py-6 flex-1">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border mb-px">
+                {isLoading ? (
+                    <Skeleton className="h-[500px] bg-card mb-px" />
+                ) : (
+                    <div className="mb-px">
+                        <ProvinceMap
+                            weather={weather ?? []}
+                            selectedProvince={selectedProvince}
+                            onSelectProvince={setSelectedProvince}
+                        />
+                    </div>
+                )}
+
+                <div className="mb-px">
                     {isLoading ? (
-                        <>
-                            <Skeleton className="h-[400px] bg-card" />
-                            <Skeleton className="h-[300px] bg-card" />
-                        </>
+                        <Skeleton className="h-[300px] bg-card" />
                     ) : (
-                        <>
-                            <ProvinceMap
-                                weather={weather ?? []}
-                                selectedProvince={selectedProvince}
-                                onSelectProvince={setSelectedProvince}
-                            />
-                            <CurrentConditions
-                                weather={selectedWeather}
-                                province={selectedProvince}
-                            />
-                        </>
+                        <CurrentConditions
+                            weather={selectedWeather}
+                            province={selectedProvince}
+                        />
                     )}
                 </div>
 
