@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/map";
 import { trackEvent } from "@/lib/analytics";
 import { provinceCoords } from "@/lib/api";
+import {
+    getTemperatureColor,
+    TEMPERATURE_RANGES,
+} from "@/lib/temperature-color";
 import type { WeatherData } from "@/types/weather";
 
 interface ProvinceMapProps {
@@ -53,7 +57,7 @@ export function ProvinceMap({
     }, [selectedProvince]);
 
     return (
-        <div className="h-[400px] md:h-full min-h-[400px] border border-border overflow-hidden">
+        <div className="h-[500px] md:h-[600px] border border-border overflow-hidden">
             <MapComponent
                 ref={mapRef}
                 center={[105.0, 12.5]}
@@ -64,6 +68,9 @@ export function ProvinceMap({
                 {Object.entries(provinceCoords).map(([name, coords]) => {
                     const provinceWeather = weatherByProvince.get(name);
                     const isSelected = selectedProvince === name;
+                    const tempColor = provinceWeather
+                        ? getTemperatureColor(provinceWeather.temp_c)
+                        : null;
 
                     return (
                         <MapMarker
@@ -80,14 +87,18 @@ export function ProvinceMap({
                                     className={`flex items-center justify-center w-8 h-8 border-2 transition-all cursor-pointer ${
                                         isSelected
                                             ? "bg-primary border-primary glow-primary"
-                                            : "bg-card border-border hover:border-primary"
+                                            : tempColor
+                                              ? `${tempColor.bg} ${tempColor.border} ${tempColor.glow}`
+                                              : "bg-card border-border hover:border-primary"
                                     }`}
                                 >
                                     <span
                                         className={`text-xs font-mono font-bold ${
                                             isSelected
                                                 ? "text-primary-foreground"
-                                                : "text-foreground"
+                                                : tempColor
+                                                  ? tempColor.text
+                                                  : "text-foreground"
                                         }`}
                                     >
                                         {provinceWeather
@@ -114,6 +125,21 @@ export function ProvinceMap({
                     );
                 })}
             </MapComponent>
+            <div className="flex items-center justify-center gap-4 py-2 bg-card border-t border-border">
+                {TEMPERATURE_RANGES.map((range) => (
+                    <div
+                        key={range.label}
+                        className="flex items-center gap-1.5"
+                    >
+                        <span
+                            className={`inline-block w-2.5 h-2.5 ${range.dot}`}
+                        />
+                        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wide">
+                            {range.label}
+                        </span>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
