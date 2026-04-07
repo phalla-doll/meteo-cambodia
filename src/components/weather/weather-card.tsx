@@ -33,7 +33,7 @@ export function WeatherCard({
                     condition={weather.condition}
                     isDay={weather.is_day}
                     size={compact ? "sm" : "md"}
-                    className="opacity-80"
+                    className={cn("opacity-80", compact && "opacity-50")}
                 />
                 <div className="flex-1 min-w-0">
                     <p
